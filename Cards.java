@@ -182,7 +182,7 @@ class Cards
             }
             for(int j = 0; j < player[i].card.length; j++)
             {
-                if(i == 0) System.out.print(player[i].card[j].suit + " " + String.format("%02d", player[i].card[j].number) + ", ");
+                System.out.print(player[i].card[j].suit + " " + String.format("%02d", player[i].card[j].number) + ", ");
             }
             System.out.print(": " + CheckCard(player[i]));
             System.out.println();
