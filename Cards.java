@@ -14,7 +14,7 @@ class Cards
     static String dealer_stats = "";
 
     public static Card[] card = new Card[52];
-    
+    static Player_states player_states = new Player_states();
     static {
         for (int i = 0; i < card.length; i++) {
             card[i] = new Card();
@@ -86,11 +86,25 @@ class Cards
     {
         Scanner input = new Scanner(System.in);
         int bet = 0;
+        
 
         System.out.print("베팅할 금액 : ");
         bet = input.nextInt();
-
-        return bet;
+        if(bet > player_states.CheckMoney())
+        {
+            System.out.println("need more money");
+            Bet();
+        }
+        else if(bet == player_states.CheckMoney())
+        {
+            System.out.println("All In");
+            return bet;
+        }
+        else if(bet < player_states.CheckMoney())
+        {
+            return bet;
+        }
+        return 0;
     }
 
     private String CheckCard(Player player)
@@ -196,12 +210,15 @@ class Cards
             winner = "Draw";
         }
         */
+        Player_states states = new Player_states();
 
         // Display the result
-        System.out.println("Winner: " + winner);
-        Player_states states = new Player_states();
+        System.out.println("\n\n승자: " + winner);
         states.bet(bet, winner);
+        System.out.println("\n현재 보유 금액 : " + states.CheckMoney());
         Myong_Sino.await(3);
+        Scanner wait = new Scanner(System.in);
+        String waitt = wait.nextLine();
         Myong_Sino.clearScreen();
     }
 

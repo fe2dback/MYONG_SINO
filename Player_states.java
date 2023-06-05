@@ -6,6 +6,7 @@ class Player_states
     {
         return this.Money;
     }
+    
 
     public void SetName(String name)
     {
@@ -28,13 +29,15 @@ class Player_states
 
     public void bet(int bet, String data)
     {
+        Money -= bet;
         if(data == "Player")
         {
-            Money += bet;
+            Money += (bet * 5);
+            System.out.println("\n" + CheckMoney() + "+ " + (bet * 5));
         }
         else if(data == "Com")
         {
-            Money -= bet;
+            System.out.println("\n" + CheckMoney() + "\n-" + bet);
         }
     }
 }
