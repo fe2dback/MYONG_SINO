@@ -7,7 +7,7 @@ class PokerGame {
 
         cards.Shuffle();
         //cards.showCards();
-        cards.Distribute();
+        cards.Distribute("Poker");
         //cards.CompareHands();
         
     }

@@ -6,6 +6,7 @@ public class Myong_Sino
     static Player_states states = new Player_states();
     static Scanner input = new Scanner(System.in);
     static PokerGame Poker = new PokerGame();
+    static BlackJackGame BlackJack = new BlackJackGame();
     public static void main(String[] args) 
     {
         start();
@@ -28,17 +29,23 @@ public class Myong_Sino
         boolean isGameOn = true;
         while (isGameOn == true)
         {
-            System.out.println("[1]블랙잭\n");
-            System.out.println("[2]현금 보기\n\n\n");
+            System.out.println("[1]포커\n");
+            System.out.println("[2]블랙잭\n");
+            System.out.println("[3]현금 보기\n\n\n");
             System.out.println("[0]종료");
             int u = input.nextInt();
             switch (u)
             {
                 
-                case 2:
+                case 3:
                 states.print_money();
                 await(2);
                 clearScreen();
+                break;
+                case 2:
+                BlackJack_on();
+                //await(1);
+                //clearScreen();
                 break;
                 case 1:
                 Poker_on();
@@ -59,6 +66,12 @@ public class Myong_Sino
     static void Poker_on()
     {
         Poker.Poker();
+        
+    }
+
+    static void BlackJack_on()
+    {
+        BlackJack.BlackJack();
         
     }
 

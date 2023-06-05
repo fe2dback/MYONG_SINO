@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -49,37 +50,164 @@ class Cards
         }
     }
 
-    public void Distribute()
+    public void Distribute(String game)
     {
-        Player[] player = new Player[5];
-        for(int i = 0; i < player.length; i++)
+        if(game == "Poker")
         {
-            player[i] = new Player();
-        }
-        int k = 0;
-        int bet = 0;
+            Player[] player = new Player[5];
+            for(int i = 0; i < player.length; i++)
+            {
+                player[i] = new Player();
+            }
+            int k = 0;
+            int bet = 0;
 
-        for(int i = 0; i < player.length; i++)
-        {
-            if(i == 0)
+            for(int i = 0; i < player.length; i++)
             {
-                System.out.print("player : ");
+                if(i == 0)
+                {
+                    System.out.print("player : ");
+                }
+                for(int j = 0; j < player[i].card.length; j++)
+                {
+                    player[i].card[j] = new Card();
+                    player[i].card[j] = card[k];
+                    k++;
+                    if(i == 0) System.out.print(player[i].card[j].suit + " " + String.format("%02d", player[i].card[j].number) + ", ");
+                }
+                if(i == 0)
+                {
+                    System.out.println(": " + CheckCard(player[i]));
+                    bet = Bet();
+                }
+                System.out.println();
             }
-            for(int j = 0; j < player[i].card.length; j++)
-            {
-                player[i].card[j] = new Card();
-                player[i].card[j] = card[k];
-                k++;
-                if(i == 0) System.out.print(player[i].card[j].suit + " " + String.format("%02d", player[i].card[j].number) + ", ");
-            }
-            if(i == 0)
-            {
-                System.out.println(": " + CheckCard(player[i]));
-                bet = Bet();
-            }
-            System.out.println();
+            CompareHands(player, bet);
         }
-        CompareHands(player, bet);
+        else if(game == "BlackJack")
+        {
+            Scanner input = new Scanner(System.in);
+            Player[] player = new Player[2];
+            for(int i = 0; i < player.length; i++)
+            {
+                player[i] = new Player();
+            }
+            player[0].card2 = new ArrayList<Card>();
+            player[1].card2 = new ArrayList<Card>();
+            int index = 0;
+            int cardIndex = 0;
+            int playerPoint = 0;
+            int dealerPoint = 0;
+            int check = 0;
+            
+        
+            while(true)
+            {
+                if(index > 3 && check != 2)
+                {
+                    playerPoint = CheckSum(player[0]); 
+                    dealerPoint = CheckSum(player[1]);  
+                    
+                    for(int i = 0; i < player[0].card2.size(); i++)
+                    {
+                        
+                        System.out.print(player[0].card2.get(i).suit + " " + String.format("%02d", player[0].card2.get(i).number) + " ");                    
+                    }
+                    
+                    System.out.println();
+                    System.out.println("Player : " + playerPoint);
+                    if(playerPoint > 21)
+                    {
+                        check = 2;
+                    }
+                    else
+                    {
+                        System.out.print("카드를 더 받으시겠습니까? 예[1] 아니요[2] : ");
+                        check = input.nextInt();
+                    }
+                }
+                else
+                {
+                    if(check != 2)
+                    {
+                        if(index % 2 == 0)
+                        {
+                            player[0].card2.add(card[cardIndex]);
+                        }
+                        else
+                        {
+                            if(dealerPoint < 17)
+                            {
+                                player[1].card2.add(card[cardIndex]);
+                            }
+                        }
+                    }
+                    
+                }
+                
+                if(check == 1)
+                {
+                    player[0].card2.add(card[cardIndex]);
+
+                    if(dealerPoint < 17)
+                    {
+                        cardIndex++;
+                        player[1].card2.add(card[cardIndex]);
+                    }
+                }
+                else if(check == 2)
+                {
+                    if(dealerPoint < 17)
+                    {
+                        player[1].card2.add(card[cardIndex]);
+                        dealerPoint = CheckSum(player[1]);  
+                    }
+                    else
+                    {
+                        if(21 - playerPoint < 21 - dealerPoint)
+                        {
+                            if(dealerPoint > 21)
+                            {
+                                System.out.println("Player Win");
+                            }
+                            else
+                            {
+                                if(playerPoint > 21)  System.out.println("Dealer Win");
+                                else System.out.println("Player Win");
+                            }
+                        }
+                        else if(21 - playerPoint > 21 - dealerPoint)
+                        {
+                            if(dealerPoint > 21)
+                            {
+                                System.out.println("Player Win");
+                            }
+                            else
+                            {
+                                System.out.println("Dealer Win");
+                            }
+    
+                        }
+                        else
+                        {
+                            if(dealerPoint > 21)
+                            {
+                                System.out.println("Player Win");
+                            }
+                            else
+                            {
+                                System.out.println("Draw");;
+                            }
+                        }
+
+                        System.out.println("Player : " + playerPoint + " Dealer : " + dealerPoint);
+                        break;
+                    }    
+                }
+                index++;
+                cardIndex++;
+            }
+        }
     }
 
     private int Bet()
@@ -106,7 +234,17 @@ class Cards
         }
         return 0;
     }
+    private int CheckSum(Player player)
+    {
+        int sum = 0;
+        for(int i = 0; i < player.card2.size(); i++)
+        {
+            sum += player.card2.get(i).number > 10 ? 10 : player.card2.get(i).number;
+        }
 
+        return sum;
+    }
+    
     private String CheckCard(Player player)
     {
 
