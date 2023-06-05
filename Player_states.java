@@ -32,7 +32,7 @@ class Player_states
         {
             Money += bet;
         }
-        else if(data == "Dealer")
+        else if(data == "Com")
         {
             Money -= bet;
         }

@@ -58,10 +58,7 @@ public class Myong_Sino
 
     static void Poker_on()
     {
-        int bet = 0;
-        System.out.print("베팅할 금액 : ");
-        bet = input.nextInt();
-        Poker.Poker(bet);
+        Poker.Poker();
         
     }
 

@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 enum Suit { S, D, H, C };
 
@@ -50,20 +51,17 @@ class Cards
 
     public void Distribute()
     {
-        Player[] player = new Player[2];
+        Player[] player = new Player[5];
         for(int i = 0; i < player.length; i++)
         {
             player[i] = new Player();
         }
         int k = 0;
+        int bet = 0;
 
         for(int i = 0; i < player.length; i++)
         {
             if(i == 0)
-            {
-                System.out.print("dealer : ");
-            }
-            else
             {
                 System.out.print("player : ");
             }
@@ -72,12 +70,27 @@ class Cards
                 player[i].card[j] = new Card();
                 player[i].card[j] = card[k];
                 k++;
-
-                System.out.print(player[i].card[j].suit + " " + String.format("%02d", player[i].card[j].number) + ", ");
+                if(i == 0) System.out.print(player[i].card[j].suit + " " + String.format("%02d", player[i].card[j].number) + ", ");
             }
-            System.out.print(": " + CheckCard(player[i]));
+            if(i == 0)
+            {
+                System.out.println(": " + CheckCard(player[i]));
+                bet = Bet();
+            }
             System.out.println();
         }
+        CompareHands(player, bet);
+    }
+
+    private int Bet()
+    {
+        Scanner input = new Scanner(System.in);
+        int bet = 0;
+
+        System.out.print("베팅할 금액 : ");
+        bet = input.nextInt();
+
+        return bet;
     }
 
     private String CheckCard(Player player)
@@ -113,22 +126,68 @@ class Cards
         return "test";
     }
 
-    public void CompareHands(int bet) {
-        Player dealer = new Player();
-        Player player = new Player();
-
+    public void CompareHands(Player[] player, int bet) {
         // Assign cards to the dealer and player
+        /*
         for (int i = 0; i < dealer.card.length; i++) {
-            dealer.card[i] = card[i];
             player.card[i] = card[i + dealer.card.length];
         }
+        */
 
         // Calculate the hand ranks for the dealer and player
-        int dealerRank = calculateHandRank(dealer);
-        int playerRank = calculateHandRank(player);
+        int[] rank = calculateHandRank(player);
+        String[] playerJockbo = CheckCard(player[0]).split(" ");
+        int playerHighCard = Integer.parseInt(playerJockbo[0]);
+        int comHighCard = 0;
+        boolean check = true;
 
         // Compare the hand ranks and determine the winner
         String winner;
+        for(int i = 1; i < rank.length; i++)
+        {
+            if(rank[0] > rank[i]) check = true;
+            else if(rank[0] < rank[i])
+            {
+                check = false;
+                break;
+            }
+            else
+            {
+                String[] comJockbo = CheckCard(player[i]).split(" ");
+                comHighCard = Integer.parseInt(comJockbo[0]);
+
+                if(playerHighCard > comHighCard) check = true;
+                else if(playerHighCard < comHighCard) check = false;
+            }
+        }
+
+        if(check == true)
+        {
+            winner = "Player";
+        }
+        else
+        {
+            winner = "Com";
+        }
+
+        for(int i = 0; i < player.length; i++)
+        {
+            if(i == 0)
+            {
+                System.out.print("Player : ");
+            }
+            else
+            {
+                System.out.print("Com" + String.format("%02d", i) + " : ");
+            }
+            for(int j = 0; j < player[i].card.length; j++)
+            {
+                if(i == 0) System.out.print(player[i].card[j].suit + " " + String.format("%02d", player[i].card[j].number) + ", ");
+            }
+            System.out.print(": " + CheckCard(player[i]));
+            System.out.println();
+        }
+        /*
         if (dealerRank > playerRank) {
             winner = "Dealer";
         } else if (dealerRank < playerRank) {
@@ -136,6 +195,7 @@ class Cards
         } else {
             winner = "Draw";
         }
+        */
 
         // Display the result
         System.out.println("Winner: " + winner);
@@ -145,30 +205,26 @@ class Cards
         Myong_Sino.clearScreen();
     }
 
-    private int calculateHandRank(Player player) {
+    private int[] calculateHandRank(Player[] player) {
         int rank = 0;
+        int[] playerRank = new int[player.length];
 
-        if (JockBo.IsOnePair(player) != 0) {
-            rank = 1;
-        } else if (JockBo.IsTwoPair(player) != 0) {
-            rank = 2;
-        } else if (JockBo.IsTriple(player) != 0) {
-            rank = 3;
-        } else if (JockBo.IsStraight(player) != 0) {
-            rank = 4;
-        } else if (JockBo.IsFlush(player) != 0) {
-            rank = 5;
-        } else if (JockBo.IsFullHouse(player) != 0) {
-            rank = 6;
-        } else if (JockBo.IsPoker(player) != 0) {
-            rank = 7;
-        } else if (JockBo.IsStraightFlush(player) != 0) {
-            rank = 8;
-        } else if (JockBo.IsNoPair(player) != 0) {
-            rank = 9;
-        }
+        for(int i = 0; i < player.length; i++)
+        {
+            if (JockBo.IsOnePair(player[i]) != 0) rank = 2;
+            else if (JockBo.IsTwoPair(player[i]) != 0) rank = 3;
+            else if (JockBo.IsTriple(player[i]) != 0) rank = 4;
+            else if (JockBo.IsStraight(player[i]) != 0) rank = 5;
+            else if (JockBo.IsFlush(player[i]) != 0) rank = 6;
+            else if (JockBo.IsFullHouse(player[i]) != 0) rank = 7;
+            else if (JockBo.IsPoker(player[i]) != 0) rank = 8;
+            else if (JockBo.IsStraightFlush(player[i]) != 0) rank = 9;
+            else if (JockBo.IsNoPair(player[i]) != 0) rank = 1;
+            
+            playerRank[i] = rank;
+        }            
 
-        return rank;
+        return playerRank;
     }
 }
     
