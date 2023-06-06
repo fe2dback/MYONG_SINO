@@ -86,6 +86,7 @@ class Cards
         }
         else if(game == "BlackJack")
         {
+            Myong_Sino.clearScreen();
             Scanner input = new Scanner(System.in);
             Player[] player = new Player[2];
             for(int i = 0; i < player.length; i++)
@@ -207,6 +208,9 @@ class Cards
                 index++;
                 cardIndex++;
             }
+            Scanner wait = new Scanner(System.in); // 다음 넘어가기위한 enter
+            String waittext = wait.nextLine();
+            Myong_Sino.clearScreen();
         }
     }
 
@@ -355,8 +359,8 @@ class Cards
         states.bet(bet, winner);
         System.out.println("\n현재 보유 금액 : " + states.CheckMoney());
         Myong_Sino.await(3);
-        Scanner wait = new Scanner(System.in);
-        String waitt = wait.nextLine();
+        Scanner wait = new Scanner(System.in); // 다음 넘어가기위한 enter
+        String waittext = wait.nextLine();
         Myong_Sino.clearScreen();
     }
 
