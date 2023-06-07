@@ -28,7 +28,9 @@ public class Myong_Sino
     {
         boolean isGameOn = true;
         while (isGameOn == true)
-        {
+        {         
+            states.SetStack();
+            states.SetBetStack();
             System.out.println("[1]포커\n");
             System.out.println("[2]블랙잭\n");
             System.out.println("[3]현금 보기\n\n\n");
