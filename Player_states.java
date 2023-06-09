@@ -12,51 +12,48 @@ class Player_states {
         this.Name = name;
     }
 
-    public void SetStack()
-    {
+    public void SetStack() {
         this.stack = 0;
     }
-    public void SetBetStack()
-    {
+
+    public void SetBetStack() {
         this.bet_stack = 0;
     }
 
     public void print_money() {
-
+        System.out.println(Name + " have money");
         System.out.println("────────────────────");
         System.out.println(this.Money + " won");
         System.out.println("────────────────────");
 
     }
-    
-    public void bet(int bet, String data, int players) {
-        Money -= bet;
-        stack++;
-        bet_stack += bet;
-        if (data == "Player") {
-            if(stack >= 2)
-            {
-                Money += (bet_stack * players);
-                System.out.println("\n" + CheckMoney() + "\n+" + (bet_stack * players));
-            }
-            else if(stack < 2)
-            {
-                Money += (bet * players);
-                System.out.println("\n" + CheckMoney() + "\n+" + (bet * players));
-            }
-            
 
-        } else if (data == "Com") {
-            if(stack >= 2)
-            {
-                System.out.println("\n" + CheckMoney() + "\n-" + bet_stack);
-            }
-            else if(stack < 2)
-            {
-                System.out.println("\n" + CheckMoney() + "\n-" + bet);
-            }
-            
+    public void bet(int bet, String data, int players) {
+        if (bet != 0 && bet == CheckMoney()) {
+            Money -= bet;
+            stack++;
+            bet_stack += bet;
         }
-        
+        if(bet == CheckMoney() && (data == "Player" || data == ""))
+        {
+            Money += bet;
+        }
+
+        System.out.println("% :" + stack + "," + bet_stack);
+        if (data == "Player") {
+            if (stack >= 2) {
+                Money += (bet_stack * players) - bet;
+                System.out.println("\n" + CheckMoney() + "\n++" + bet_stack);
+            } else if (stack < 2) {
+                Money += (bet * players);
+                System.out.println("\n" + CheckMoney() + "\n+" + bet_stack);
+            }
+
+        } else if (data == "Com") 
+        {
+            System.out.println("\n" + CheckMoney() + "\n-" + bet_stack);
+
+        }
+
     }
 }

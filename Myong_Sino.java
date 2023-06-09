@@ -40,16 +40,19 @@ public class Myong_Sino
             {
                 
                 case 3:
+                clearScreen();
                 states.print_money();
                 await(2);
                 clearScreen();
                 break;
                 case 2:
+                clearScreen();
                 BlackJack_on();
                 //await(1);
                 //clearScreen();
                 break;
                 case 1:
+                clearScreen();
                 Poker_on();
                 //await(1);
                 //clearScreen();

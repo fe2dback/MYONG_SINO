@@ -91,6 +91,7 @@ class Cards {
             int dealerPoint = 0;
             int check = 0;
             int bet = 0;
+            boolean first = true;
 
             while (true) {
                 if (index > 3 && check != 2) {
@@ -105,7 +106,11 @@ class Cards {
 
                     System.out.println();
                     System.out.println("Player : " + playerPoint);
-                    bet = Bet();
+                    if(first == true)
+                    {
+                        bet = Bet();
+                        first = false;
+                    }
                     if (playerPoint > 21) {
                         check = 2;
                     } else {
@@ -166,7 +171,6 @@ class Cards {
                                 states.bet(bet, "Player", 2);
                             } else {
                                 System.out.println("Draw");
-                                ;
                                 states.bet(bet, "", 2);
                             }
                         }
@@ -179,6 +183,7 @@ class Cards {
                 cardIndex++;
 
             }
+            first = true;
             Scanner wait = new Scanner(System.in); // 다음 넘어가기위한 enter
             String waittext = wait.nextLine();
             Myong_Sino.clearScreen();
