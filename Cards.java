@@ -15,9 +15,9 @@ class Cards {
     static String player_stats = "";
     static String dealer_stats = "";
 
-    static Player_states states = new Player_states();
+    static Player_state states = new Player_state();
     public static Card[] card = new Card[52];
-    static Player_states player_states = new Player_states();
+    static Player_state player_states = new Player_state();
     static {
         for (int i = 0; i < card.length; i++) {
             card[i] = new Card();
@@ -184,6 +184,7 @@ class Cards {
 
             }
             first = true;
+            System.out.println("press Enter. . .");
             Scanner wait = new Scanner(System.in); // 다음 넘어가기위한 enter
             String waittext = wait.nextLine();
             Myong_Sino.clearScreen();
@@ -331,6 +332,7 @@ class Cards {
         states.bet(bet, winner, 5);
         System.out.println("\n현재 보유 금액 : " + states.CheckMoney());
         Myong_Sino.await(3);
+        System.out.println("press Enter. . .");
         Scanner wait = new Scanner(System.in); // 다음 넘어가기위한 enter
         String waittext = wait.nextLine();
         Myong_Sino.clearScreen();

@@ -1,4 +1,4 @@
-class Player_states {
+class Player_state {
     private static int Money = 1_000_000;
     private static String Name = "";
     private static int stack = 0;
@@ -14,10 +14,11 @@ class Player_states {
 
     public void SetStack() {
         this.stack = 0;
+        this.bet_stack = 0;
     }
 
     public void SetBetStack() {
-        this.bet_stack = 0;
+        
     }
 
     public void print_money() {
@@ -29,17 +30,15 @@ class Player_states {
     }
 
     public void bet(int bet, String data, int players) {
-        if (bet != 0 && bet == CheckMoney()) {
+        if (bet != 0 || bet == CheckMoney()) {
             Money -= bet;
             stack++;
             bet_stack += bet;
         }
-        if(bet == CheckMoney() && (data == "Player" || data == ""))
+        if(bet == CheckMoney() && data == "")
         {
             Money += bet;
         }
-
-        System.out.println("% :" + stack + "," + bet_stack);
         if (data == "Player") {
             if (stack >= 2) {
                 Money += (bet_stack * players) - bet;
@@ -53,6 +52,13 @@ class Player_states {
         {
             System.out.println("\n" + CheckMoney() + "\n-" + bet_stack);
 
+        }
+
+        if(Money <= 0)
+        {
+            Myong_Sino.clearScreen();
+            System.out.println("파산 하셨습니다\n" + Money);
+            System.exit(0);
         }
 
     }

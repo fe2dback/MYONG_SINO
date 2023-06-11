@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Myong_Sino
 {
-    static Player_states states = new Player_states();
+    static Player_state states = new Player_state();
     static Scanner input = new Scanner(System.in);
     static PokerGame Poker = new PokerGame();
     static BlackJackGame BlackJack = new BlackJackGame();
@@ -30,7 +30,6 @@ public class Myong_Sino
         while (isGameOn == true)
         {         
             states.SetStack();
-            states.SetBetStack();
             System.out.println("[1]포커\n");
             System.out.println("[2]블랙잭\n");
             System.out.println("[3]현금 보기\n\n\n");
